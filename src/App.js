@@ -1,17 +1,25 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable quotes */
 /* eslint-disable react/jsx-one-expression-per-line */
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DetailItem from "./components/DetailItem";
 import Details from "./components/Details";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
+import {
+  cartReducer,
+  CartTypes,
+  initialCartState,
+} from "./reducers/cartReducer";
 
 function App() {
   const [items, setItems] = useState([]);
+  const [cart, dispatch] = useReducer(cartReducer, initialCartState);
+  const addToCart = (itemId) => dispatch({ type: CartTypes.ADD, itemId });
 
   useEffect(() => {
     axios
@@ -20,19 +28,18 @@ function App() {
       .catch(console.error);
   }, []);
 
-  if (items.length === 0) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <Router>
-      <Header />
+      <Header cart={cart} />
       {items.length === 0 ? (
         <div>Loading...</div>
       ) : (
         <Routes>
           <Route path="/details" element={<Details items={items} />}>
-            <Route path=":id" element={<DetailItem items={items} />} />
+            <Route
+              path=":id"
+              element={<DetailItem items={items} addToCart={addToCart} />}
+            />
             <Route index element={<div>No Item Selected</div>} />
           </Route>
           <Route path="/" element={<Home items={items} />} />
