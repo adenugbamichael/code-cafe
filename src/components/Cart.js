@@ -10,6 +10,8 @@ import { useRef, useState } from "react";
 import ItemType from "../types/item";
 import CartRow from "./CartRow";
 import "./Cart.scss";
+import Alert from "./Alert";
+import { CartTypes } from "../reducers/cartReducer";
 
 function Cart({ cart, dispatch, items }) {
   const [name, setName] = useState("");
@@ -17,6 +19,8 @@ function Cart({ cart, dispatch, items }) {
   const [zipCode, setZipCode] = useState("");
   const [isEmployeeOfTheMonth, setIsEmployeeOfTheMonth] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [apiError, setApiError] = useState("");
   const debounceRef = useRef(null);
   const zipRef = useRef(null);
 
@@ -44,9 +48,11 @@ function Cart({ cart, dispatch, items }) {
         phone,
         zipCode,
       });
-      console.log("Order Submitted");
+      dispatch({ type: CartTypes.EMPTY });
+      setShowSuccessAlert(true);
     } catch (error) {
       console.error("Error submitting the order", error);
+      setApiError(error?.response?.data?.error || "Unknown Error");
     } finally {
       setIsSubmitting(false);
     }
@@ -89,6 +95,14 @@ function Cart({ cart, dispatch, items }) {
 
   return (
     <div className="cart-component">
+      <Alert visible={showSuccessAlert} type="success">
+        Thank you for your order.
+      </Alert>
+      <Alert visible={!!apiError} type="error">
+        <p>There was an error submitting your order.</p>
+        <p>{apiError}</p>
+        <p>Please try again.</p>
+      </Alert>
       <h2>Your Cart</h2>
       {cart.length === 0 ? (
         <div>Your cart is empty.</div>
@@ -141,6 +155,9 @@ function Cart({ cart, dispatch, items }) {
                 type="tel"
                 value={phone}
                 onChange={(event) => setFormattedPhone(event.target.value)}
+                aria-label="Enter your phone number.
+                After a phone number is entered,
+                you will automatically be moved to the next field."
               />
             </label>
             <label htmlFor="zipcode">

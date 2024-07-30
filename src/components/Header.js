@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import CoffeeLogo from "../images/logo.svg";
 import CartIcon from "../images/cart.svg";
 import "./Header.scss";
+import UserDetails from "./UserDetails";
 
 function Header({ cart }) {
   const cartQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
@@ -21,6 +22,7 @@ function Header({ cart }) {
           <img src={CartIcon} alt="Cart" />
           <div className="badge">{cartQuantity}</div>
         </Link>
+        <UserDetails />
       </div>
     </header>
   );
