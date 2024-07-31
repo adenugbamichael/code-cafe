@@ -1,17 +1,18 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable quotes */
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Alert from "./Alert";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import "./Login.scss";
-import Alert from "./Alert";
 
 function Login() {
   const { setCurrentUser } = useContext(CurrentUserContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [apiError, setApiError] = useState();
+  const [apiError, setApiError] = useState("");
+
   const navigate = useNavigate();
 
   const login = async (event) => {
@@ -69,4 +70,5 @@ function Login() {
     </div>
   );
 }
+
 export default Login;

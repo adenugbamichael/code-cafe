@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable indent */
 /* eslint-disable function-paren-newline */
 /* eslint-disable implicit-arrow-linebreak */
@@ -5,9 +6,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable quotes */
 
-import { Link } from "react-router-dom";
 import axios from "axios";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import Profile from "../images/profile.svg";
 import "./UserDetails.scss";
@@ -28,6 +29,9 @@ function UserDetails() {
     <div className="user-details-component">
       {currentUser.username ? (
         <div>
+          {currentUser.access === "associate" ? (
+            <Link to="/orders">Orders</Link>
+          ) : null}
           <img src={Profile} alt="profile" />
           <p>{currentUser.username}</p>
           <button type="button" onClick={logout}>
@@ -40,4 +44,5 @@ function UserDetails() {
     </div>
   );
 }
+
 export default UserDetails;

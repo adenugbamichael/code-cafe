@@ -41,6 +41,7 @@ function Cart({ cart, dispatch, items }) {
   const submitOrder = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
+    setApiError("");
     try {
       await axios.post("/api/orders", {
         items: cart,

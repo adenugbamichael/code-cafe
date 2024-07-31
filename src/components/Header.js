@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import CoffeeLogo from "../images/logo.svg";
 import CartIcon from "../images/cart.svg";
-import "./Header.scss";
 import UserDetails from "./UserDetails";
+import "./Header.scss";
 
 function Header({ cart }) {
   const cartQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
