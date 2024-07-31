@@ -2,6 +2,7 @@
 /* eslint-disable quotes */
 // eslint-disable-next-line quotes
 import { Outlet } from "react-router-dom";
+import { memo } from "react";
 import PropTypes from "prop-types";
 import { itemImages } from "../items";
 import ItemType from "../types/item";
@@ -30,4 +31,4 @@ Details.propTypes = {
   items: PropTypes.arrayOf(ItemType).isRequired,
 };
 
-export default Details;
+export default memo(Details);

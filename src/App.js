@@ -5,7 +5,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 
 import axios from "axios";
-import { useEffect, useMemo, useReducer, useState } from "react";
+import { useCallback, useEffect, useMemo, useReducer, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DetailItem from "./components/DetailItem";
 import Cart from "./components/Cart";
@@ -40,7 +40,10 @@ function App() {
       }
     },
   );
-  const addToCart = (itemId) => dispatch({ type: CartTypes.ADD, itemId });
+  const addToCart = useCallback(
+    (itemId) => dispatch({ type: CartTypes.ADD, itemId }),
+    [],
+  );
 
   useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(cart));
